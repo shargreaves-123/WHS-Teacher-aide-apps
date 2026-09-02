@@ -1,0 +1,633 @@
+<!doctype html>
+<html lang="en">
+<title>Teacher Aid Time Tabling</title>
+<meta name="viewport" content="width=device-width">
+<meta charset="utf-8">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=SN+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+
+<style>
+body {
+	margin: 0 auto 0 auto;
+	background-color: #E6E6E6;
+	font-family: "SN Pro", sans-serif;
+	text-align: center;
+}
+
+.dark-mode {
+	background-color: #181c16;
+	color: #adbfa1;
+	table {
+		background-color: #343d2d;
+	}
+	.button1 {
+		background-color: #414f38;
+		color: #adbfa1;
+	}
+	.button1:hover {
+		background-color: #5e7350;
+		color: #adbfa1;
+	}
+	.modal-content {
+		background-color: #181c16;
+	}
+	.modal-table {
+		background-color: #414f38;
+	}
+	.modal-data:nth-child(even),
+	.modal-hd:nth-child(even) {
+		background-color: #4e5e43;
+	}
+	.modal-data,
+	.modal-tr,
+	.modal-hd {
+		border: 1px solid #181c16;
+	}
+	.modal-header {
+		border: 0px solid black;
+	}
+	.modal-data:hover,
+	.highlight	{
+		background-color: #667d57 !important;
+	}
+}
+
+a {
+	text-decoration: none;
+	color: mediumSlateBlue;
+}
+
+a:hover {	
+	color: darkSlateBlue;
+}
+
+th,
+td {
+	text-align: center;
+}
+
+table {
+	width: 500px;
+	height: 400px;
+	background-color: #BAC8B1;
+	border-radius: 10px;
+	padding: 10px;
+	margin: auto;
+}
+
+.button1 {
+	background-color: #7B9669;
+	border: none;
+  	border-radius: 10px;
+	text-align: center;
+	padding: 10px;
+	color: black;
+}
+
+.button1:hover {
+	background-color: #667D56;
+	color: black;
+}
+
+img {
+	border-radius: 10px;
+	width: 50px;
+}
+h3 {
+	color: red;
+}
+
+.modal-content {
+	background-color: #E6E6E6;
+	margin: auto;
+}
+
+.modal-table {
+	background-color: #BAC8B1;
+	pading: 0px;
+}
+.modal-header {
+	border: 0px solid black;
+}
+
+.modal-tr, 
+.modal-hd {
+	border-collapse: collapse;
+	border: 1px solid #E6E6E6;
+	padding: 5px 10px 5px 10px;
+}
+
+.modal-data {
+	border-collapse: collapse;
+	border: 1px solid #E6E6E6;
+	padding: 5px 10px 5px 10px;
+}
+.modal-data:nth-child(even),
+.modal-hd:nth-child(even) {
+	background-color: #A7B49F;
+}
+
+.modal-data:hover,
+.highlight {
+	background-color: #92a189 !important;
+}
+
+.button2 {
+	background-color: inherit;
+	border: none;
+	width: 100%;
+	height: 100%;
+	padding: 0px;
+}
+
+.selected1 {
+	border-top: 5px solid red !important;
+}
+.notselected1 {
+	.selected1 {
+		border-top: none !important;
+	}
+}
+
+
+.notselected2 {
+	border-top: none !important;
+}
+.selected2 {
+	.notselected2 {
+		border-top: 5px solid red !important;
+	}
+}
+
+
+[popover='auto'] {
+	background: lightslategray;
+	border-radius: 5px;
+	border: none;
+	text-align: center;
+	padding: 1rem;
+	position: absolute; 
+
+	left: calc(anchor(right) + 1rem);
+	align-self: anchor-center;
+	justify-self: anchor-center;
+
+	& button {
+		border: none;
+		border-radius: 5px;
+		background-color: #d1d1d1;
+	}
+	
+	& button:hover {
+		background-color: #adadad;
+	}
+	
+	.close-btn {
+		position: absolute;
+		top: 5px;
+		right: 5px;
+		background: transparent;
+		padding: 0 5px;
+	}
+}
+
+</style>
+
+<body>
+<!-- https://medium.com/@rochejul/use-the-popover-api-to-create-a-fancy-button-with-a-menu-ba926690c414 -->
+<h1>Teacher Aid Time Tabling</h1>
+ <!--- <a href="home.html">
+<strong>Home</strong>
+</a>
+<br>
+<a href="timetable.html">
+<strong>Time Tabling</strong>
+</a> -->
+
+<button class="button1" onclick="theme()">
+	Theme
+</button>
+<p> 
+<table>
+	<tr>
+		<th style="width:20%">Monday</th>
+		<th style="width:20%">Tuesday</th>
+		<th style="width:20%">Wednesday</th>
+		<th style="width:20%">Thursday</th>
+		<th style="width:20%">Friday</th>
+	</tr>
+	
+	<tr>
+		<td>
+			<button type="button" class="button1" data-toggle="modal" data-target="#MonW">
+					Whanau
+			</button>
+		</td>
+		<td>
+			<button type="button" class="button1" data-toggle="modal" data-target="#TueW">
+					Whanau
+			</button>
+		</td>
+		<td>
+			<button type="button" class="button1" data-toggle="modal" data-target="#Wed1">
+					Period 1
+			</button>
+		</td>
+		<td>
+			<button type="button" class="button1" data-toggle="modal" data-target="#ThuW">
+					Whanau
+			</button>
+		</td>
+		<td>
+			<button type="button" class="button1" data-toggle="modal" data-target="#FriW">
+					Whanau
+			</button>
+		</td>
+	</tr>
+	
+	<tr>
+		<td>
+			<button type="button" class="button1" data-toggle="modal" data-target="#Mon1">
+					Period 1
+			</button>
+		</td>
+		<td>
+			<button type="button" class="button1" data-toggle="modal" data-target="#Tue1">
+					Period 1
+			</button>
+		</td>
+		<td>
+			<button type="button" class="button1" data-toggle="modal" data-target="#Wed2">
+					Period 2
+			</button>
+		</td>
+		<td>
+			<button type="button" class="button1" data-toggle="modal" data-target="#Thu1">
+					Period 1
+			</button>
+		</td>
+		<td>
+			<button type="button" class="button1" data-toggle="modal" data-target="#Fri1">
+					Period 1
+			</button>
+		</td>
+	</tr>
+	
+	<tr>
+		<td>
+			<button type="button" class="button1" data-toggle="modal" data-target="#Mon2">
+					Period 2
+			</button>
+		</td>
+		<td>
+			<button type="button" class="button1" data-toggle="modal" data-target="#Tue2">
+					Period 2
+			</button>
+		</td>
+		<td>
+			<button type="button" class="button1" data-toggle="modal" data-target="#WedM">
+					Meet
+			</button>
+		</td>
+		<td>
+			<button type="button" class="button1" data-toggle="modal" data-target="#Thu2">
+					Period 2
+			</button>
+		</td>
+		<td>
+			<button type="button" class="button1" data-toggle="modal" data-target="#Fri2">
+					Period 2
+			</button>
+		</td>
+	</tr>
+	
+	<tr>
+		<th colspan="5">Mornng Tea</th>
+	</tr>
+	
+	<tr>
+		<td>
+			<button type="button" class="button1" data-toggle="modal" data-target="#Mon3">
+					Period 3
+			</button>
+		</td>
+		<td>
+			<button type="button" class="button1" data-toggle="modal" data-target="#Tue3">
+					Period 3
+			</button>
+		</td>
+		<td>
+			<button type="button" class="button1" data-toggle="modal" data-target="#Wed3">
+					Period 3
+			</button>
+		</td>
+		<td>
+			<button type="button" class="button1" data-toggle="modal" data-target="#Thu3">
+					Period 3
+			</button>
+		</td>
+		<td>
+			<button type="button" class="button1" data-toggle="modal" data-target="#Fri3">
+					Period 3
+			</button>
+		</td>
+	</tr>
+	
+	<tr>
+		<td>
+			<button type="button" class="button1" data-toggle="modal" data-target="#Mon4">
+					Period 4
+			</button>
+		</td>
+		<td>
+			<button type="button" class="button1" data-toggle="modal" data-target="#Tue4">
+					Period 4
+			</button>
+		</td>
+		<td>
+			<button type="button" class="button1" data-toggle="modal" data-target="#Wed4">
+					Period 4
+			</button>
+		</td>
+		<td>
+			<button type="button" class="button1" data-toggle="modal" data-target="#Thu4">
+					Period 4
+			</button>
+		</td>
+		<td>
+			<button type="button" class="button1" data-toggle="modal" data-target="#Fri4">
+					Period 4
+			</button>
+		</td>
+	</tr>
+	
+	<tr>
+		<th colspan="5">Lunch</th>
+	</tr>
+	
+	<tr>
+		<td>
+			<button type="button" class="button1" data-toggle="modal" data-target="#Mon5">
+					Period 5
+			</button>
+		</td>
+		<td>
+			<button type="button" class="button1" data-toggle="modal" data-target="#Tue5">
+					Period 5
+			</button>
+		</td>
+		<td>
+			<button type="button" class="button1" data-toggle="modal" data-target="#Wed5">
+					Period 5
+			</button>
+		</td>
+		<td>
+			<button type="button" class="button1" data-toggle="modal" data-target="#Thu5">
+					Period 5
+			</button>
+		</td>
+		<td>
+			<button type="button" class="button1" data-toggle="modal" data-target="#Fri5">
+					Period 5
+			</button>
+		</td>
+	</tr>
+</table>
+
+<!--- https://www.w3schools.com/bootstrap/tryit.asp?filename=trybs_modal&stacked=h -->
+<div class="modal fade" id="MonW" role="dialog">
+    <div class="modal-dialog">
+    
+
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+		  
+          <h4 class="modal-title">Monday Whanau</h4>
+		  
+        </div>
+        <div class="modal-body">
+		
+          <table class="modal-table">
+			<tr class="modal-tr">
+				<th class="modal-hd">Year 7</th>
+				<th class="modal-hd">Year 8</th>
+				<th class="modal-hd">Year 9</th>
+				<th class="modal-hd">Year 10</th>
+				<th class="modal-hd">Year 11</th>
+				<th class="modal-hd">Year 12</th>
+				<th class="modal-hd">Year 13</th>
+			</tr>
+			<tr class="modal-tr">
+				<td class="modal-data">
+					<button type="button" class="button2 selected1" popovertarget="7WHAUset" style="anchor-name: --popover1;">
+						7WHAU
+						<br>Rm 8
+						<br>Gus Smith
+					</button>
+				</td>
+				<td class="modal-data">
+					<button type="button" class="button2 notselected2" popovertarget="8WHAU">
+						8WHAU
+						<br>Rm 3
+						<br>Shalendra Dutt
+					</button>
+				</td>
+				<td class="modal-data">9WHAU
+					<br>CW Rm
+					<br>Vanessa Pringle</td>
+				<td class="modal-data">10WHAU
+					<br>Rm 13
+					<br>Vikashni Ram</td>
+				<td class="modal-data">11WHAU
+					<br>Txtiles Rm
+					<br>Maryke Diplock</td>
+				<td class="modal-data" data-link="group2">12WHAU
+					<br>Music Rm
+					<br>Michelle Hetherington</td>
+				<td class="modal-data" data-link="group1">Year 13
+					<br>TT Rm
+					<br>Lynda Shanks</td>
+				
+			</tr>
+			<tr class="modal-tr">
+				<td class="modal-data">
+					7WPAPA
+					<br>Rm 2
+					<br>Kate Veale
+					
+					</td>
+				<td class="modal-data">
+					8WPAPA
+					<br>Rm 12
+					<br>Sonica Hilson
+				</td>
+				<td class="modal-data">
+					9WPAPA
+					<br>GR Rm
+					<br>Mohinesh Ram
+					</button>
+					</td>
+				<td class="modal-data">10WPAPA
+					<br>Rm 1
+					<br>Janice Sadler</td>
+				<td class="modal-data">
+					11WPAPA
+					<br>Rm 7
+					<br>Paolo Quilala</td>
+				<td class="modal-data">12WPAPA
+					<br>Rm 6
+					<br>Siobhan O’Malley</td>
+				<td class="modal-data" data-link="group1">Year 13
+					<br>TT Rm
+					<br>Lynda Shanks</td>
+			</tr>
+			<tr class="modal-tr">
+				<td class="modal-data">7WWAI
+					<br>Rm 14
+					<br>Arleen Evasco</td>	
+				<td class="modal-data">8WWAI
+					<br>GW
+					<br>Ben Tappero</td>
+				<td class="modal-data">9WWAI
+					<br>Rm 5
+					<br>Anna Pinkerton</td>
+				<td class="modal-data">10WWAI
+					<br>Rm 10
+					<br>Johan Minnaar</td>
+				<td class="modal-data">11WWAI
+					<br>Rm 9
+					<br>Anna Pinkerton</td>
+				<td class="modal-data" data-link="group2">12WWAI
+					<br>Music Rm
+					<br>Michelle Hetherington</td>
+				<td class="modal-data" data-link="group1">Year 13
+					<br>TT Rm
+					<br>Lynda Shanks</td>
+			</tr>
+			<tr class="modal-tr">
+				<td class="modal-data">7WAHI
+					<br>Rm 22
+					<br>Rachel Wastney</td>	
+				<td class="modal-data">8WAHI
+					<br>Rm 15
+					<br>Mariska Minnaar</td>	
+				<td class="modal-data">9WAHI
+					<br>Rm 4
+					<br>Arleen Evasco</td>	
+				<td class="modal-data">10WAHI
+					<br>Rm Library
+					<br>Kristy Veale</td>	
+				<td class="modal-data">11WAHI
+					<br>OE Rm
+					<br>Mike Talbot</td>	
+				<td class="modal-data">12WAHI
+					<br>Art Rm
+					<br>Philippa Mallinson</td>
+				<td class="modal-data" data-link="group1">Year 13
+					<br>TT Rm
+					<br>Lynda Shanks</td>
+			</tr>
+			
+		  </table>
+		  
+        </div>
+      </div>
+      
+    </div>
+</div>
+
+<div id="8WHAU" popover="auto">
+	<button popovertarget="8WHAU" popovertargetaction="hide" class="close-btn">&times;</button>
+	<p>8Whau</p>
+  <div>
+    <button id="8WHAUA" popovertarget="8WHAU" popovertargetaction="hide" onclick="noteach2()" >Teacher A</button>
+  </div>
+  <p>
+  <div>
+    <button id="8WHAUB" popovertarget="8WHAU" popovertargetaction="hide" onclick="noteach2()" >Teacher B</button>
+  </div>
+</div>
+
+<div id="7WHAUset" popover="auto" style="position-anchor: --popover1;" >
+	<button popovertarget="7WHAUset" popovertargetaction="hide" class="close-btn">&times;</button>
+	<p>7WHAU</p>
+	<p>
+	<h5>Teacher A</h5>
+  <div>
+    <button popovertarget="7WHAUset" popovertargetaction="hide"  
+	onclick="document.getElementById('7WHAU').showPopover()">Change Teacher</button>
+  </div>
+</div>
+
+<div id="7WHAU" popover="auto" style="position-anchor: --popover1;">
+	<button popovertarget="7WHAU" popovertargetaction="hide" class="close-btn">&times;</button>
+	<p>7Whau</p>
+  <div>
+    <button id="7WHAUA" popovertarget="7WHAU" popovertargetaction="hide">Teacher A</button>
+  </div>
+  <p>
+  <div>
+    <button id="7WHAUB" popovertarget="7WHAU" popovertargetaction="hide">Teacher B</button>
+  </div>
+  <p>
+  <div>
+    <button id="7WHAUN" popovertarget="7WHAU" popovertargetaction="hide" onclick="noteach1()">none</button>
+  </div>
+</div>
+
+<script>
+function theme() {
+   var element = document.body;
+   element.classList.toggle("dark-mode");
+}
+</script>
+<script>
+$(document).ready(function() {
+    $('.modal-data[data-link]').hover(
+        function() {
+            var linkId = $(this).attr('data-link');
+            $('[data-link="' + linkId + '"]').addClass('highlight');
+        }, 
+        function() {
+            var linkId = $(this).attr('data-link');
+            $('[data-link="' + linkId + '"]').removeClass('highlight');
+        }
+    );
+});
+</script>
+<script>
+$(document).ready(function(){
+  $('[data-toggle="popover"]').popover({
+    container: 'body',
+  });   
+});
+
+<!-- Source - https://stackoverflow.com/a/20468809 -->
+$('body').on('click', function (e) {
+    $('[data-toggle=popover]').each(function () {
+        if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+            $(this).popover('hide');
+        }
+    });
+});
+
+</script>
+<script>
+function noteach1() {
+   var element = document.body;
+   element.classList.toggle("notselected1");
+}
+</script>
+<script>
+function noteach2() {
+   var element = document.body;
+   element.classList.toggle("selected2");
+}
+</script>
+</body>
+</html>
