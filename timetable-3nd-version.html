@@ -1,0 +1,659 @@
+<!doctype html>
+<html lang="en">
+<title>Teacher Aide Time Tabling</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.5">
+<meta charset="utf-8">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<style>
+	:root {
+		--bg: white;
+		--table: color-mix(in srgb, var(--button), #FFF 50%);
+		--button: #8fbeeb;
+		--button_hover: color-mix(in srgb, var(--button), #000 20%);
+		--table_modal_alt: color-mix(in srgb, var(--table_modal), #FFF 20%);
+		--table_modal: color-mix(in srgb, var(--button), #FFF 20%);
+		--table_modal_hover: color-mix(in srgb, var(--table_modal), #000 20%);
+		--popover: var(--bg);
+		--text: black;
+		--name: red;
+		}
+
+	body {
+		margin: 0 auto 0 auto;
+		background-color: var(--bg);
+		font-family: 'Times New Roman', serif;
+		text-align: center;
+	}
+
+	th,
+	td {
+		text-align: center;
+	}
+
+	table {
+		width: 50rem;
+		height: 40rem;
+		background-color: var(--table);
+		border-radius: 1rem;
+		padding: 1rem;
+		margin: auto;
+		table-layout: fixed;
+	}
+
+	button {
+		background-color: var(--button);
+		border: none;
+		border-radius: 1rem;
+		text-align: center;
+		padding: 1rem;
+		color: var(--text);
+	}
+
+	button:hover {
+		background-color: var(--button_hover);
+		color: var(--text);
+	}
+
+	h5 {
+		color: var(--name);
+	}
+
+	@scope (.modal) {
+
+		.content{
+			position: absolute;
+			left: 50%;
+			transform: translate(-50%, 0%);
+			background-color: var(--bg);
+			margin: auto;
+			border-radius: 1rem;
+		}
+
+		.table {
+			width: 95%;
+			height: 100%;
+			background-color: var(--table_modal);
+			padding: 0rem;
+		}
+
+		body {
+			text-align: left;
+			padding-left: 2rem;
+		}
+
+		header {
+			border: 0rem;
+		}
+
+		th,
+		td{
+			border-collapse: collapse;
+			border: 0.1rem solid var(--bg);
+			padding: 0.5rem 1rem 0.5rem 1rem;
+			color: var(--text);
+		}
+
+		td:nth-child(even),
+		th:nth-child(even) {
+			background-color: var(--table_modal_alt);
+		}
+
+		td:hover {
+			background-color: var(--table_modal_hover);
+		}
+
+		.close {
+			width: auto;
+			align-self: right;
+		}
+
+		@scope (.timetable) {
+			.content {
+				width: 80rem;
+			}
+			button {
+				background-color: inherit;
+				padding: auto;
+				border-radius: 0rem;
+				width: 100%;
+				height: 100%;
+			}
+
+			button:hover {
+			background-color: inherit;
+			}
+		}
+
+		@scope (.curr-teach-aide) {
+			.content {
+				width: 30rem;
+				text-align: left;
+				padding-left: 1rem;
+			}
+		}
+
+	}
+
+	.highlight {
+			background-color: var(--table_modal_hover);
+		}
+
+	[popover='auto'] {
+		background: var(--popover);
+		border-radius: 0.5rem;
+		border: none;
+		text-align: center;
+		padding: 0rem;
+		position: absolute;
+		left: calc(anchor(right) + 1rem);
+		align-self: anchor-center;
+		justify-self: anchor-center;
+		overflow: visible;
+
+		& button {
+			border: none;
+			border-radius: 0.5rem;
+			background-color: var(--button);
+			padding: auto;
+		}
+
+		& button:hover {
+			background-color: var(--button_hover);
+		}
+
+		.close {
+			position: absolute;
+			top: 0.5rem;
+			right: 0.5rem;
+			background: transparent;
+			padding: 0 0.5rem;
+		}
+
+		.content:after {
+			content: "";
+			background-color: var(--popover);
+			height: 1rem;
+			width: 1rem;
+			position: absolute;
+			bottom: 70%;
+			left: 0rem;
+			transform: translateX(-50%) rotate(45deg);
+		}
+	}
+
+</style>
+
+<body>
+<!--https://dev.to/blamsa0mine/how-to-create-a-dynamic-popover-with-css-and-javascript-53i8-->
+<!-- https://medium.com/@rochejul/use-the-popover-api-to-create-a-fancy-button-with-a-menu-ba926690c414 -->
+<h1>Teacher Aide Time Tabling</h1>
+ <!--- <a href="home.html">
+<strong>Home</strong>
+</a>
+<br>
+<a href="timetable.html">
+<strong>Time Tabling</strong>
+</a> -->
+
+<table>
+	<tr>
+		<th>Monday</th>
+		<th>Tuesday</th>
+		<th>Wednesday</th>
+		<th>Thursday</th>
+		<th>Friday</th>
+	</tr>
+
+	<tr>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#MonW">
+					Whanau
+			</button>
+		</td>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#TueW">
+					Whanau
+			</button>
+		</td>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#Wed1">
+					Period 1
+			</button>
+		</td>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#ThuW">
+					Whanau
+			</button>
+		</td>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#FriW">
+					Whanau
+			</button>
+		</td>
+	</tr>
+
+	<tr>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#Mon1">
+					Period 1
+			</button>
+		</td>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#Tue1">
+					Period 1
+			</button>
+		</td>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#Wed2">
+					Period 2
+			</button>
+		</td>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#Thu1">
+					Period 1
+			</button>
+		</td>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#Fri1">
+					Period 1
+			</button>
+		</td>
+	</tr>
+
+	<tr>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#Mon2">
+					Period 2
+			</button>
+		</td>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#Tue2">
+					Period 2
+			</button>
+		</td>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#WedM">
+					Meet
+			</button>
+		</td>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#Thu2">
+					Period 2
+			</button>
+		</td>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#Fri2">
+					Period 2
+			</button>
+		</td>
+	</tr>
+
+	<tr>
+		<th colspan="5">Mornng Tea</th>
+	</tr>
+
+	<tr>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#Mon3">
+					Period 3
+			</button>
+		</td>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#Tue3">
+					Period 3
+			</button>
+		</td>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#Wed3">
+					Period 3
+			</button>
+		</td>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#Thu3">
+					Period 3
+			</button>
+		</td>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#Fri3">
+					Period 3
+			</button>
+		</td>
+	</tr>
+
+	<tr>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#Mon4">
+					Period 4
+			</button>
+		</td>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#Tue4">
+					Period 4
+			</button>
+		</td>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#Wed4">
+					Period 4
+			</button>
+		</td>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#Thu4">
+					Period 4
+			</button>
+		</td>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#Fri4">
+					Period 4
+			</button>
+		</td>
+	</tr>
+
+	<tr>
+		<th colspan="5">Lunch</th>
+	</tr>
+
+	<tr>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#Mon5">
+					Period 5
+			</button>
+		</td>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#Tue5">
+					Period 5
+			</button>
+		</td>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#Wed5">
+					Period 5
+			</button>
+		</td>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#Thu5">
+					Period 5
+			</button>
+		</td>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#Fri5">
+					Period 5
+			</button>
+		</td>
+	</tr>
+</table>
+<div id="daysago">Data not available from Kamar or unknown issue has occurred developer assistince is recomended</div>
+<script>
+    const day = 3;
+    if (day <= 5 && day >= 0) {
+    daysago.textContent = "Updated: " + day + " day(s) ago";
+    }
+    else if (day > 5) {
+    daysago.textContent = "Updated: " + day + " day(s) ago, the timetable may be inaccurate";
+    daysago.style.color = "red";
+    }
+    else if (day < 0) {
+    daysago.textContent = "The last updated information is inaacurate and is displaying: " + day + " day(s), please check with devoloper";
+    daysago.style.color = "red";
+    }
+    else {
+    daysago.textContent = "An issue has occured and '" + day + "' is being diplayed";
+    daysago.style.color = "red";
+    }
+</script>
+<br>
+<button type="button" data-toggle="modal" data-target="#curr-teach-aide">
+Current Teacher Aides
+</button>
+<div class="modal fade" id="curr-teach-aide" role="dialog">
+	<div class="curr-teach-aide">
+		<div class="modal-dialog">
+			<div class="content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+
+					<p class="modal-title">Current Teacher Aides</p>
+
+				</div>
+				<div class="body">
+					<p>Teacher A</p>
+					<p></p>
+					<p>Teacher B</p>
+					<p></p>
+					<p>Teacher C</p>
+					<p></p>
+					<p>Teacher D</p>
+					<p></p>
+					<p>Teacher E</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--- https://www.w3schools.com/bootstrap/tryit.asp?filename=trybs_modal&stacked=h -->
+<div class="modal fade" id="MonW" role="dialog">
+    <div class="modal-dialog">
+		<div class="timetable">
+			<div class="content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<p class="modal-title">Monday Whanau</p>
+				</div>
+				<div class="body">
+					<table class="table">
+						<tr>
+							<th>Year 7</th>
+							<th>Year 8</th>
+							<th>Year 9</th>
+							<th>Year 10</th>
+							<th>Year 11</th>
+							<th>Year 12</th>
+							<th>Year 13</th>
+							<th>TWA</th>
+							<th>Remaining Teacher Aides</th>
+						</tr>
+						<tr>
+							<td>
+								<button type="button" popovertarget="7WHAUset" style="anchor-name: --popover1;">
+									7WHAU
+									<br>Rm 8
+									<br>Gus Smith
+								</button>
+							</td>
+							<td>
+								<button type="button" popovertarget="8WHAU" style="anchor-name: --popover2;">
+									8WHAU
+									<br>Rm 3
+									<br>Shalendra Dutt
+								</button>
+							</td>
+							<td>9WHAU
+								<br>CW Rm
+								<br>Vanessa Pringle</td>
+							<td>10WHAU
+								<br>Rm 13
+								<br>Vikashni Ram</td>
+							<td>11WHAU
+								<br>Txtiles Rm
+								<br>Maryke Diplock</td>
+							<td data-link="group2">12WHAU
+								<br>Music Rm
+								<br>Michelle Hetherington</td>
+							<td data-link="group1">Year 13
+								<br>TT Rm
+								<br>Lynda Shanks</td>
+							<td rowspan="4">test</td>
+							<th rowspan="4">beep</th>
+
+						</tr>
+						<tr>
+							<td>
+								7WPAPA
+								<br>Rm 2
+								<br>Kate Veale
+
+								</td>
+							<td>
+								8WPAPA
+								<br>Rm 12
+								<br>Sonica Hilson
+							</td>
+							<td>
+								9WPAPA
+								<br>GR Rm
+								<br>Mohinesh Ram
+								</td>
+							<td>10WPAPA
+								<br>Rm 1
+								<br>Janice Sadler</td>
+							<td>
+								11WPAPA
+								<br>Rm 7
+								<br>Paolo Quilala</td>
+							<td>12WPAPA
+								<br>Rm 6
+								<br>Siobhan O’Malley</td>
+							<td data-link="group1">Year 13
+								<br>TT Rm
+								<br>Lynda Shanks</td>
+						</tr>
+						<tr>
+							<td>7WWAI
+								<br>Rm 14
+								<br>Arleen Evasco</td>
+							<td>8WWAI
+								<br>GW
+								<br>Ben Tappero</td>
+							<td>9WWAI
+								<br>Rm 5
+								<br>Anna Pinkerton</td>
+							<td>10WWAI
+								<br>Rm 10
+								<br>Johan Minnaar</td>
+							<td>11WWAI
+								<br>Rm 9
+								<br>Anna Pinkerton</td>
+							<td data-link="group2">12WWAI
+								<br>Music Rm
+								<br>Michelle Hetherington</td>
+							<td data-link="group1">Year 13
+								<br>TT Rm
+								<br>Lynda Shanks</td>
+						</tr>
+						<tr>
+							<td>7WAHI
+								<br>Rm 22
+								<br>Rachel Wastney</td>
+							<td>8WAHI
+								<br>Rm 15
+								<br>Mariska Minnaar</td>
+							<td>9WAHI
+								<br>Rm 4
+								<br>Arleen Evasco</td>
+							<td>10WAHI
+								<br>Rm Library
+								<br>Kristy Veale</td>
+							<td>11WAHI
+								<br>OE Rm
+								<br>Mike Talbot</td>
+							<td>12WAHI
+								<br>Art Rm
+								<br>Philippa Mallinson</td>
+							<td data-link="group1">Year 13
+								<br>TT Rm
+								<br>Lynda Shanks</td>
+						</tr>
+
+					</table>
+				</div>
+			</div>
+		</div>
+    </div>
+</div>
+
+
+<div id="8WHAU" popover="auto" style="position-anchor: --popover2;">
+	<div class="content">
+		<button popovertarget="8WHAU" popovertargetaction="hide" class="close">&times;</button>
+		<div class="popover-content">
+			<p>8Whau</p>
+			<button id="8WHAUA" popovertarget="8WHAU" popovertargetaction="hide" onclick="noteach2()" >Teacher A</button>
+		</div>
+		<p></p>
+		<div>
+			<button id="8WHAUB" popovertarget="8WHAU" popovertargetaction="hide" onclick="noteach2()" >Teacher B</button>
+		</div>
+	</div>
+</div>
+
+
+<div id="7WHAUset" popover="auto" style="position-anchor: --popover1;" >
+	<div class="content">
+		<button popovertarget="7WHAUset" popovertargetaction="hide" class="close">&times;</button>
+		<div class="popover-content">
+			<p>7WHAU</p>
+			<p></p>
+			<p>Teacher A</p>
+ 			 <div>
+   				 <button popovertarget="7WHAUset" popovertargetaction="hide" onclick="document.getElementById('7WHAU').showPopover()">
+					Change Teacher
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="7WHAU" popover="auto" style="position-anchor: --popover1;">
+	<div class="content">
+		<button popovertarget="7WHAU" popovertargetaction="hide" class="close">&times;</button>
+		<div class="popover-content">
+			<p>7Whau</p>
+			<div>
+				<button id="7WHAUA" popovertarget="7WHAU" popovertargetaction="hide">Teacher A</button>
+			</div>
+			<p></p>
+			<div>
+				<button id="7WHAUB" popovertarget="7WHAU" popovertargetaction="hide">Teacher B</button>
+			</div>
+			<p></p>
+			<div>
+			<button id="7WHAUN" popovertarget="7WHAU" popovertargetaction="hide" onclick="noteach1()">none</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('.modal-data[data-link]').hover(
+        function() {
+            var linkId = $(this).attr('data-link');
+            $('[data-link="' + linkId + '"]').addClass('highlight');
+        },
+        function() {
+            var linkId = $(this).attr('data-link');
+            $('[data-link="' + linkId + '"]').removeClass('highlight');
+        }
+    );
+});
+</script>
+<script>
+$(document).ready(function(){
+  $('[data-toggle="popover"]').popover({
+    container: 'body',
+  });
+});
+
+<!-- Source - https://stackoverflow.com/a/20468809 -->
+$('body').on('click', function (e) {
+    $('[data-toggle=popover]').each(function () {
+        if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+            $(this).popover('hide');
+        }
+    });
+});
+
+</script>
+</body>
+</html>
