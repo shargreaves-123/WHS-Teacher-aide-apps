@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="en">
+<title>Teacher Aide Time Tabling</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="timetable.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<body>
+<!--Websites are inserted for ease of reference.-->
+<!--https://dev.to/blamsa0mine/how-to-create-a-dynamic-popover-with-css-and-javascript-53i8-->
+<!-- https://medium.com/@rochejul/use-the-popover-api-to-create-a-fancy-button-with-a-menu-ba926690c414-->
+<p></p>
+<img src="https://www.westlandhigh.school.nz/wp-content/themes/wh_2021/images/header-logo.png" alt"Westland High School Logo" style="height:10rem;">
+<h1>Teacher Aide Time Tabling</h1>
+
+<!-- This is the main table where the user selects the day and preiod they wish to view.-->
+<table class="main">
+	<tr>
+		<th>Monday</th>
+		<th>Tuesday</th>
+		<th>Wednesday</th>
+		<th>Thursday</th>
+		<th>Friday</th>
+	</tr>
+
+	<tr>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#MonW">
+					Whanau
+			</button>
+		</td>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#TueW">
+					Whanau
+			</button>
+		</td>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#Wed1">
+					Period 1
+			</button>
+		</td>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#ThuW">
+					Whanau
+			</button>
+		</td>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#FriW">
+					Whanau
+			</button>
+		</td>
+	</tr>
+
+	<tr>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#Mon1">
+					Period 1
+			</button>
+		</td>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#Tue1">
+					Period 1
+			</button>
+		</td>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#Wed2">
+					Period 2
+			</button>
+		</td>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#Thu1">
+					Period 1
+			</button>
+		</td>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#Fri1">
+					Period 1
+			</button>
+		</td>
+	</tr>
+
+	<tr>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#Mon2">
+					Period 2
+			</button>
+		</td>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#Tue2">
+					Period 2
+			</button>
+		</td>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#WedM">
+					Meet
+			</button>
+		</td>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#Thu2">
+					Period 2
+			</button>
+		</td>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#Fri2">
+					Period 2
+			</button>
+		</td>
+	</tr>
+
+	<tr>
+		<th colspan="5">Mornng Tea</th>
+	</tr>
+
+	<tr>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#Mon3">
+					Period 3
+			</button>
+		</td>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#Tue3">
+					Period 3
+			</button>
+		</td>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#Wed3">
+					Period 3
+			</button>
+		</td>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#Thu3">
+					Period 3
+			</button>
+		</td>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#Fri3">
+					Period 3
+			</button>
+		</td>
+	</tr>
+
+	<tr>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#Mon4">
+					Period 4
+			</button>
+		</td>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#Tue4">
+					Period 4
+			</button>
+		</td>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#Wed4">
+					Period 4
+			</button>
+		</td>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#Thu4">
+					Period 4
+			</button>
+		</td>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#Fri4">
+					Period 4
+			</button>
+		</td>
+	</tr>
+
+	<tr>
+		<th colspan="5">Lunch</th>
+	</tr>
+
+	<tr>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#Mon5">
+					Period 5
+			</button>
+		</td>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#Tue5">
+					Period 5
+			</button>
+		</td>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#Wed5">
+					Period 5
+			</button>
+		</td>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#Thu5">
+					Period 5
+			</button>
+		</td>
+		<td>
+			<button type="button" data-toggle="modal" data-target="#Fri5">
+					Period 5
+			</button>
+		</td>
+	</tr>
+</table>
+<!--This  displays how recent the timetable information is from.-->
+<div id="daysago">Data not available from Kamar or unknown issue has occurred developer assistince is recomended</div>
+<br>
+<!-- This allows The user to view and edit the list of teacher aides they can choose from.-->
+<div class="main">
+	<button class="inline" type="button" data-toggle="modal" data-target="#curr-teach-aide">
+	Current Teacher Aides
+	</button>
+
+	<button class="inline" type="button" onclick="contrast()">
+		High Contrast Mode
+	</button>
+</div>
+<div class="modal fade" id="curr-teach-aide" role="dialog">
+	<div class="curr-teach-aide">
+		<div class="modal-dialog">
+			<div class="content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+
+					<p class="modal-title">Current Teacher Aides</p>
+
+				</div>
+				<div class="body">
+					<ul id="CurrentTeacherAides">
+						<li>Teacher A<button class="remove" onclick="removeTeacher(this)">&times;</button></li>
+						<li>Teacher B<button class="remove" onclick="removeTeacher(this)">&times;</button></li>
+						<li>Teacher C<button class="remove" onclick="removeTeacher(this)">&times;</button></li>
+						<li>Teacher D<button class="remove" onclick="removeTeacher(this)">&times;</button></li>
+						<li>Teacher E<button class="remove" onclick="removeTeacher(this)">&times;</button></li>
+						<li id="newteachaide"></li>
+					</ul>
+					<input style="width: 20rem;" type="text" id="newteachinput" placeholder="Enter new teacher aide's name" />
+					<button onclick="getInputValue()">Submit</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--Websites are inserted for ease of reference.-->
+<!--- https://www.w3schools.com/bootstrap/tryit.asp?filename=trybs_modal&stacked=h -->
+
+<!--This is the modal for the demo period and day to show the client how it will look.-->
+<div class="modal fade" id="MonW" role="dialog">
+    <div class="modal-dialog">
+		<div class="timetable">
+			<div class="content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<p class="modal-title">Monday Whanau</p>
+				</div>
+				<div class="body">
+					<table class="table">
+						<tr>
+							<th>Year 7</th>
+							<th>Year 8</th>
+							<th>Year 9</th>
+							<th>Year 10</th>
+							<th>Year 11</th>
+							<th>Year 12</th>
+							<th>Year 13</th>
+							<th>TWA</th>
+							<th>Remaining Teacher Aides</th>
+						</tr>
+						<tr>
+							<td>
+								<button type="button" popovertarget="7WHAU" style="anchor-name: --popover1;">
+									<div class="aidename" id="aide7WHAU">Teacher A</div>
+									7WHAU
+									<br>Rm 8
+									<br>Gus Smith
+								</button>
+							</td>
+							<td>
+								<button type="button" popovertarget="8WHAU" style="anchor-name: --popover2;">
+									<div class="aidename" id="aide8WHAU"></div>
+									8WHAU
+									<br>Rm 3
+									<br>Shalendra Dutt
+								</button>
+							</td>
+							<td>
+								<button type="button">
+									9WHAU
+									<br>CW Rm
+									<br>Vanessa Pringle
+								</button>
+							</td>
+							<td>
+								<button type="button">
+									10WHAU
+									<br>Rm 13
+									<br>Vikashni Ram
+								</button>
+							</td>
+							<td>
+								<button type="button">
+									11WHAU
+									<br>Txtiles Rm
+									<br>Maryke Diplock
+								</button>
+							</td>
+							<td data-link="group2">
+								<button type="button">
+									12WHAU
+									<br>Music Rm
+									<br>Michelle Hetherington
+								</button>
+								</td>
+							<td data-link="group1">
+								<button type="button">
+									Year 13
+									<br>TT Rm
+									<br>Lynda Shanks
+								</button>
+							</td>
+							<td rowspan="4"></td>
+							<th rowspan="4">Teacher B
+											<p></p>
+											Teacher C
+											<p></p>
+											Teacher D
+											<p></p>
+											Teacher E
+											</th>
+
+						</tr>
+						<tr>
+							<td>
+								7WPAPA
+								<br>Rm 2
+								<br>Kate Veale
+
+								</td>
+							<td>
+								8WPAPA
+								<br>Rm 12
+								<br>Sonica Hilson
+							</td>
+							<td>
+								9WPAPA
+								<br>GR Rm
+								<br>Mohinesh Ram
+								</td>
+							<td>10WPAPA
+								<br>Rm 1
+								<br>Janice Sadler</td>
+							<td>
+								11WPAPA
+								<br>Rm 7
+								<br>Paolo Quilala</td>
+							<td>12WPAPA
+								<br>Rm 6
+								<br>Siobhan O’Malley</td>
+							<td data-link="group1">Year 13
+								<br>TT Rm
+								<br>Lynda Shanks</td>
+						</tr>
+						<tr>
+							<td>7WWAI
+								<br>Rm 14
+								<br>Arleen Evasco</td>
+							<td>8WWAI
+								<br>GW
+								<br>Ben Tappero</td>
+							<td>9WWAI
+								<br>Rm 5
+								<br>Anna Pinkerton</td>
+							<td>10WWAI
+								<br>Rm 10
+								<br>Johan Minnaar</td>
+							<td>11WWAI
+								<br>Rm 9
+								<br>Anna Pinkerton</td>
+							<td data-link="group2">12WWAI
+								<br>Music Rm
+								<br>Michelle Hetherington</td>
+							<td data-link="group1">Year 13
+								<br>TT Rm
+								<br>Lynda Shanks</td>
+						</tr>
+						<tr>
+							<td>7WAHI
+								<br>Rm 22
+								<br>Rachel Wastney</td>
+							<td>8WAHI
+								<br>Rm 15
+								<br>Mariska Minnaar</td>
+							<td>9WAHI
+								<br>Rm 4
+								<br>Arleen Evasco</td>
+							<td>10WAHI
+								<br>Rm Library
+								<br>Kristy Veale</td>
+							<td>11WAHI
+								<br>OE Rm
+								<br>Mike Talbot</td>
+							<td>12WAHI
+								<br>Art Rm
+								<br>Philippa Mallinson</td>
+							<td data-link="group1">Year 13
+								<br>TT Rm
+								<br>Lynda Shanks</td>
+						</tr>
+
+					</table>
+				</div>
+			</div>
+		</div>
+    </div>
+</div>
+
+<!-- This is one of the popovers that lets the user asign teacher aides to periods -->
+<div id="8WHAU" popover="auto" style="position-anchor: --popover2;">
+	<div class="content">
+		<button popovertarget="8WHAU" popovertargetaction="hide" class="close">&times;</button>
+		<div class="popover-content">
+			<p>8Whau</p>
+			<div>
+				<button popovertarget="8WHAU" popovertargetaction="hide" onclick="aide8WHAUA()">Teacher A</button>
+			</div>
+			<p></p>
+			<div>
+				<button popovertarget="8WHAU" popovertargetaction="hide" onclick="aide8WHAUB()">Teacher B</button>
+			</div>
+			<p></p>
+			<div>
+				<button popovertarget="8WHAU" popovertargetaction="hide" onclick="aide8WHAUC()">Teacher C</button>
+			</div>
+			<p></p>
+			<div>
+				<button popovertarget="8WHAU" popovertargetaction="hide" onclick="aide8WHAUD()">Teacher D</button>
+			</div>
+			<p></p>
+			<div>
+				<button popovertarget="8WHAU" popovertargetaction="hide" onclick="aide8WHAUE()">Teacher E</button>
+			</div>
+			<p></p>
+			<div>
+			<button popovertarget="8WHAU" popovertargetaction="hide" onclick="aide8WHAUnone()">none</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- This is one of the popovers that lets the user asign teacher aides to periods -->
+<div id="7WHAU" popover="auto" style="position-anchor: --popover1;">
+	<div class="content">
+		<button popovertarget="7WHAU" popovertargetaction="hide" class="close">&times;</button>
+		<div class="popover-content">
+			<p>7Whau</p>
+			<div>
+				<button popovertarget="7WHAU" popovertargetaction="hide" onclick="aide7WHAUA()">Teacher A</button>
+			</div>
+			<p></p>
+			<div>
+				<button popovertarget="7WHAU" popovertargetaction="hide" onclick="aide7WHAUB()">Teacher B</button>
+			</div>
+			<p></p>
+			<div>
+				<button popovertarget="7WHAU" popovertargetaction="hide" onclick="aide7WHAUC()">Teacher C</button>
+			</div>
+			<p></p>
+			<div>
+				<button popovertarget="7WHAU" popovertargetaction="hide" onclick="aide7WHAUD()">Teacher D</button>
+			</div>
+			<p></p>
+			<div>
+				<button popovertarget="7WHAU" popovertargetaction="hide" onclick="aide7WHAUE()">Teacher E</button>
+			</div>
+			<p></p>
+			<div>
+			<button popovertarget="7WHAU" popovertargetaction="hide" onclick="aide7WHAUnone()">none</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="timetable.js"></script>
+</body>
+</html>
