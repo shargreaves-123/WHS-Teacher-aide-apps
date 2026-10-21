@@ -1,0 +1,245 @@
+:root {
+		--bg: white;
+		--table: color-mix(in srgb, var(--button), #FFF 50%);
+		--button: #8bb4dd;
+		--button_hover: color-mix(in srgb, var(--button), #000 20%);
+		--table_modal_alt: color-mix(in srgb, var(--table_modal), #FFF 25%);
+		--table_modal: color-mix(in srgb, var(--button), #FFF 20%);
+		--table_modal_hover: color-mix(in srgb, var(--table_modal), #000 20%);
+		--modal: #FFFFFF;
+		--popover: #f0f0f0;
+		--text: black;
+		--name: red;
+		--border_button: inherit;
+		--border_table: white;
+
+		.high-contrast {
+			--bg: white;
+			--table: #8bb4dd;
+			--button: white;
+			--button_hover: color-mix(in srgb, var(--button), #000 10%);
+			--table_modal_alt: color-mix(in srgb, var(--table_modal), #FFF 100%);
+			--table_modal: color-mix(in srgb, var(--table), #FFF 80%);
+			--table_modal_hover: color-mix(in srgb, var(--table_modal), #000 20%);
+			--modal: var(--table);
+			--popover: #f0f0f0;
+			--text: black;
+			--name: black;
+			--border_button: black;
+			--border_table: black;
+		}
+	}
+body {
+	margin: 0rem;
+	height: 100vw;
+	width: 100vh;
+	overflow: hidden;
+	align-items: center;
+	justify-content: center;
+	transform: scale(1.4);
+	transform-origin: top center;
+	background-color: var(--bg);
+}
+
+html,
+body {
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	font-family: 'Georgia', serif;
+	width: 100%;
+    height: 100vh; 
+}
+
+th,
+td {
+	text-align: center;
+	}
+
+.highlight {
+		background-color: var(--table_modal_hover) !important;
+	}
+
+table {
+	width: 50rem;
+	height: 40rem;
+	background-color: var(--table);
+	border-radius: 1rem;
+	padding: 1rem;
+	margin: auto;
+	table-layout: fixed;
+}
+
+button {
+	background-color: var(--button);
+	border: none;
+	border-radius: 1rem;
+	text-align: center;
+	padding: 1rem;
+	color: var(--text);
+}
+
+button:hover {
+	background-color: var(--button_hover);
+	color: var(--text);
+}
+
+.aidename {
+	color: var(--name);
+	font-size: 1.4rem;
+}
+
+.inline {
+	display: inline-block;
+}
+
+@scope (.main) {
+	button {
+		border: 0.2rem solid var(--border_button);
+	}
+}
+
+@scope (.modal) {
+	
+	.content {
+		position: absolute;
+		left: 50%;
+		transform: translate(-50%, 0%);
+		background-color: var(--bg);
+		margin: auto;
+		border-radius: 1rem;
+	}
+
+	.table {
+		width: 95%;
+		height: 100%;
+		background-color: var(--table_modal);
+		padding: 0rem;
+	}
+	
+	body {
+		text-align: left;
+		padding-left: 2rem;
+	}
+	
+	header {
+		border: 0rem;
+	}
+	
+	th,
+	td,
+	table {
+		border-collapse: collapse;
+		border: 0.2rem solid var(--border_table);
+		padding: 0.5rem 1rem 0.5rem 1rem;
+		color: var(--text);
+	}
+
+	td:nth-child(even),
+	th:nth-child(even) {
+		background-color: var(--table_modal_alt);
+	}
+
+	td:hover {
+		background-color: var(--table_modal_hover);
+	}
+	
+	.close {
+		width: auto;
+		align-self: right;
+	}
+	
+	@scope (.timetable) {
+		
+		
+		.content {
+		
+			width: 100rem;
+			background-color: var(--modal);
+		}
+		
+		button {
+			background-color: inherit;
+			padding: auto;
+			border-radius: 0rem;
+			width: 100%;
+			height: 100%;
+		}
+
+		button:hover{
+			background-color: inherit;	
+		}	
+	}
+
+	@scope (.curr-teach-aide) {
+		.content {
+			width: 35rem;
+			text-align: left;
+			padding-left: 1rem;
+			padding-bottom: 1rem;
+			font-size: 1.2rem;
+		}
+
+		.remove {
+			background-color: inherit;
+			color: e0e0e0;
+		}
+
+		.remove:hover {
+			color:b9b9b9;
+			background-color: var(--popover)
+		}
+
+		ul {
+			list-style: none;
+		}
+	}
+
+}
+
+[popover='auto'] {
+	background: var(--popover);
+	border-radius: 0.5rem;
+	border: none;
+	text-align: center;
+	padding: 0rem;
+	position: absolute;
+	left: calc(anchor(right) + 1rem);
+	align-self: anchor-center;
+	justify-self: anchor-center;
+	overflow: visible;
+	border: 0.2rem solid var(--border_button);
+	font-size: 2.2rem;
+
+	& button {
+		border: none;
+		border-radius: 0.5rem;
+		background-color: var(--button);
+		padding: auto;
+		border: 0.2rem solid var(--border_button);
+	}
+	
+	& button:hover {
+		background-color: var(--button_hover);
+	}
+
+	.close {
+		position: absolute;
+		top: 0.5rem;
+		right: 0.5rem;
+		background: transparent;
+		padding: 0 0.5rem;
+	}
+
+	.content:after {
+		content: "";
+		background-color: var(--popover);
+		height: 1rem;
+		width: 1rem;
+		position: absolute;
+		bottom: 70%;
+		left: 0rem;
+		transform: translateX(-50%) rotate(45deg);
+		border: 0.2rem solid var(--border_button);
+	}
+}
